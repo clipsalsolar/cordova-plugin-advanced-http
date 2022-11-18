@@ -77,15 +77,16 @@ public class CordovaHttpPlugin extends CordovaPlugin implements Observer {
     } else if ("abort".equals(action)) {
       return this.abort(args, callbackContext);
     }
+    
+    //No need for verification during an http request on a local server without internet
+    //if (!isNetworkAvailable()) {
+    // CordovaHttpResponse response = new CordovaHttpResponse();
+    //  response.setStatus(-6);
+    //  response.setErrorMessage("No network connection available");
+    //  callbackContext.error(response.toJSON());
 
-    if (!isNetworkAvailable()) {
-      CordovaHttpResponse response = new CordovaHttpResponse();
-      response.setStatus(-6);
-      response.setErrorMessage("No network connection available");
-      callbackContext.error(response.toJSON());
-
-      return true;
-    }
+    //  return true;
+    //}
 
     if ("get".equals(action)) {
       return this.executeHttpRequestWithoutData(action, args, callbackContext);
