@@ -51,14 +51,18 @@
     return [[[self class] alloc] initWithBaseURL:nil];
 }
 
++ (instancetype)managerWithConfig {
+    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
+    config.waitsForConnectivity = YES;
+    return [[[self class] alloc] initWithSessionConfiguration:config];
+}
+
 - (instancetype)init {
     return [self initWithBaseURL:nil];
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url {
-    NSURLSessionConfiguration* config = [NSURLSessionConfiguration defaultSessionConfiguration];
-    config.waitsForConnectivity = YES;
-    return [self initWithBaseURL:url sessionConfiguration:config];
+    return [self initWithBaseURL:url sessionConfiguration:nil];
 }
 
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration {

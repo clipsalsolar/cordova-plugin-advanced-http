@@ -104,6 +104,12 @@ NS_ASSUME_NONNULL_BEGIN
 + (instancetype)manager;
 
 /**
+ Creates and returns an `SM_AFHTTPSessionManager` object with a configuration which waits for connectivity.
+ This is shit and hacky but we have deadlines :shrug:
+ */
++ (instancetype)managerWithConfig;
+
+/**
  Initializes an `SM_AFHTTPSessionManager` object with the specified base URL.
 
  @param url The base URL for the HTTP client.

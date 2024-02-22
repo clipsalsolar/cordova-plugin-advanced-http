@@ -193,8 +193,6 @@
 }
 
 - (void)executeRequestWithoutData:(CDVInvokedUrlCommand*)command withMethod:(NSString*) method {
-    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
-
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *headers = [command.arguments objectAtIndex:1];
     NSTimeInterval connectTimeout = [[command.arguments objectAtIndex:2] doubleValue];
@@ -202,6 +200,15 @@
     bool followRedirect = [[command.arguments objectAtIndex:4] boolValue];
     NSString *responseType = [command.arguments objectAtIndex:5];
     NSNumber *reqId = [command.arguments objectAtIndex:6];
+
+    SM_AFHTTPSessionManager *manager;
+    NSString *semAPBaseIPv4Address = @"http://172.26.48.1:888";
+    // Terribly hacky fix to avoid infinite timeout on Saturn inverter AP
+    if ([url containsString:semAPBaseIPv4Address]) {
+        manager = [SM_AFHTTPSessionManager managerWithConfig];
+    } else {
+        manager = [SM_AFHTTPSessionManager manager];
+    }
 
     [self setRequestSerializer: @"default" forManager: manager];
     [self setupAuthChallengeBlock: manager];
@@ -254,8 +261,6 @@
 }
 
 - (void)executeRequestWithData:(CDVInvokedUrlCommand*)command withMethod:(NSString*)method {
-    SM_AFHTTPSessionManager *manager = [SM_AFHTTPSessionManager manager];
-
     NSString *url = [command.arguments objectAtIndex:0];
     NSDictionary *data = [command.arguments objectAtIndex:1];
     NSString *serializerName = [command.arguments objectAtIndex:2];
@@ -265,6 +270,15 @@
     bool followRedirect = [[command.arguments objectAtIndex:6] boolValue];
     NSString *responseType = [command.arguments objectAtIndex:7];
     NSNumber *reqId = [command.arguments objectAtIndex:8];
+
+    SM_AFHTTPSessionManager *manager;
+    NSString *semAPBaseIPv4Address = @"http://172.26.48.1:888";
+    // Terribly hacky fix to avoid infinite timeout on Saturn inverter AP
+    if ([url containsString:semAPBaseIPv4Address]) {
+        manager = [SM_AFHTTPSessionManager managerWithConfig];
+    } else {
+        manager = [SM_AFHTTPSessionManager manager];
+    }
 
     [self setRequestSerializer: serializerName forManager: manager];
     [self setupAuthChallengeBlock: manager];
